@@ -8,6 +8,7 @@ Energy consumption of memory accesses dominates the compute energy in energy-con
 You can find the paper [here](https://arxiv.org/pdf/2306.03740.pdf). 
 
 Click on the picture below for our video.
+
 [![presentation_video](pictures/tum_room.png)](https://youtu.be/Xj-GhAt_l5U)
 
 ## Code Release Schedule
