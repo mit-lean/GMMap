@@ -1,0 +1,118 @@
+{
+  "width" : 640,
+  "height" : 480,
+  "fx": 320.0,
+  "fy": 320.0,
+  "cx": 320.0,
+  "cy": 240.0,
+  "scale" : 1.0,
+  "max_depth" : 20,
+  "dataset_path" : {
+    "location": "Datasets/tartanair_tools",
+    "scene": "soulcity",
+    "difficulty": "Easy",
+    "sequence": "P001",
+    "camera": "left",
+    "use_slam_traj" : false
+  },
+  "result_path" : "../accuracy_eval",
+
+  "cpu_compute_parameters" : {
+    "num_threads" : 4,
+    "measure_memory" : false,
+    "debug" : false,
+    "debug_row_idx" : 240
+  },
+
+  "gpu_compute_parameters" : {
+    "num_blocks" : 4,
+    "threads_per_block" : 128,
+    "max_segments_per_line" : 32
+  },
+
+  "gmm_fusion_parameters" : {
+    "hell_thresh_squard_free" : 0.4,
+    "hell_thresh_squard_obs_scale" : 5,
+    "hell_thresh_squard_oversized_gau" : 0.4,
+    "hell_thresh_squard_min" : 0.1e-5,
+    "min_gau_len" : 0.5,
+    "frame_max_scale" : 4,
+    "fusion_max_scale" : 10,
+    "gau_fusion_bd" : 2.0,
+    "gau_rtree_bd" : 2.0,
+    "track_color" : true,
+    "track_intensity": false
+  },
+
+  "gmm_clustering_parameters" : {
+    "algorithm" : "spgf_extended",
+    "scanline_segmentation" : {
+      "adaptive_thresh_scale" : 0.70,
+      "noise_floor" : 0.05,
+      "occ_x_t" : 10,
+      "noise_thresh" : 0.2,
+      "ncheck_t" : 16,
+      "line_t" : 0.3,
+      "max_incomplete_clusters" : 2
+    },
+
+    "segment_fusion" : {
+      "angle_t" : 0.50
+    },
+
+    "spurious_gaussian_purge" : {
+      "sparse_t" : 2,
+      "num_line_t" : 8,
+      "num_pixels_t" : 200
+    },
+
+    "free_gaussian_generation" : {
+      "free_space_dist_scale" : 1
+    }
+  },
+
+  "occupancy_inference_parameters" : {
+    "unexplored_evidence" : 500000,
+    "unexplored_variance" : 0.25,
+    "min_num_neighbor_clusters" : 4
+  },
+
+  "path_planning_parameters" : {
+    "name" : "RRT",
+    "use_occupancy" : true,
+    "validity_checking_resolution" : 0.001,
+    "num_of_samples" : 10000,
+    "occ_free_threshold" : 0.5,
+    "occ_obs_threshold" : 0.8,
+    "start_scale_x" : 0.95,
+    "start_scale_y" : 0.12,
+    "start_scale_z" : 0.38,
+    "dest_scale_x" : 0.22,
+    "dest_scale_y" : 0.69,
+    "dest_scale_z" : 0.54,
+    "opt_planner_name": "FPP",
+    "opt_planner_offline_opt": true,
+    "opt_planner_strictly_free": false,
+    "opt_planner_fpp_phase2_method": "safebox_map",
+    "opt_planner_offline_min_free_bbox": 0.001,
+    "opt_planner_offline_min_obs_bbox": 100,
+    "opt_planner_online_min_free_bbox": 0,
+    "opt_planner_online_min_obs_bbox": 0,
+    "opt_planner_online_max_free_bbox_per_cluster": 50,
+    "opt_planner_online_max_adj_bbox_cnt": 100,
+    "opt_planner_online_submap_include_neighbors": true,
+    "opt_planner_validate_use_occupancy": false,
+    "opt_planner_validate_checking_resolution": 0.001
+  },
+
+  "visualization_parameters" : {
+    "window_width" : 1920,
+    "window_height" : 1080,
+    "zoom_factor" : 2.5,
+    "height_factor" : 1.0,
+    "update_interval" : 10,
+    "delay_per_frame" : 50,
+    "show_obstacle_gmm" : true,
+    "show_free_gmm" : false
+  }
+}
