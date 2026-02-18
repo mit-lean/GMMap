@@ -52,7 +52,7 @@ This should create a static mapping library for you to link your project (if you
 Please install the following dependencies:
 1. Compile [Open3D](https://github.com/isl-org/Open3D) from source.
       ```
-      git clone https://github.com/isl-org/Open3D
+      git clone --depth 1 --branch v0.18.0 https://github.com/isl-org/Open3D
       cd Open3D
       mkdir build
       cd build
