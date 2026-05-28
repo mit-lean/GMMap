@@ -1022,7 +1022,10 @@ protected:
                     update_pcd = gmm_map_viz->isEnvBBoxUpdated(prop_values_.atomicMapVizFlags);
                     gmm_map_viz->updateGeometry(prop_values_.atomicMapVizFlags, final_frame);
                     if (update_pcd){
-                        if (!gmm_map_viz->isMapCropped(prop_values_.atomicMapVizFlags)){
+			{
+              		std::lock_guard<std::mutex> locker(pcd_lock);
+
+              		if (!gmm_map_viz->isMapCropped(prop_values_.atomicMapVizFlags)){
                             env_bbox->min_bound_ = cur_env_min_bound.cast<double>();
                             env_bbox->max_bound_ = cur_env_max_bound.cast<double>();
                             surface_.pcd_cropped = t::geometry::PointCloud::FromLegacy(surface_.pcd);
@@ -1031,6 +1034,8 @@ protected:
                                                           env_bbox->min_bound_, env_bbox->max_bound_);
                             surface_.pcd_cropped = open3d::t::geometry::PointCloud::FromLegacy(*surface_.pcd.Crop(*env_bbox));
                         }
+			}
+
                     }
 
                     updateInfoAndFPS(info, fps, frame_idx, rgb_files.size(), T_eigen, gmm_map_viz,
@@ -1221,8 +1226,11 @@ protected:
 
                     if (!is_running_ || final_frame){
                         // Only copy if the pause button is detected!
-                        surface_.pcd = surface_.pcd_cropped.ToLegacy();
-                    }
+                        {
+			std::lock_guard<std::mutex> locker(pcd_lock);
+			surface_.pcd = surface_.pcd_cropped.ToLegacy();
+                    	}
+		}
                     is_scene_updated_ = true;
                 }
 
@@ -1372,8 +1380,11 @@ protected:
                         std::string pcd_file = dataset_param::result_path / "pointcloud.pcd";
                         std::cout << fmt::format("Saving pointcloud to file: {}\n", pcd_file);
                         open3d::io::WritePointCloudOption write_params;
+			{                        
+			std::lock_guard<std::mutex> locker(pcd_lock);
                         open3d::io::WritePointCloudToPCD(pcd_file, surface_.pcd, write_params);
-                        std::cout << "Completed saving pointcloud!\n\n";
+                        }
+			std::cout << "Completed saving pointcloud!\n\n";
                     }
 
                     if (prop_values_.save_occ_img){

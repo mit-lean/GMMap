@@ -38,7 +38,7 @@
 #define NIGH_IMPL_NON_ATOMIC_HPP
 
 #include <atomic>
-
+#include <utility>
 namespace unc::robotics::nigh::impl {
     // Non-atomic class to mimic std::atomic, but ignore memory
     // ordering constraints.
