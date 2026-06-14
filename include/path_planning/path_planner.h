@@ -66,13 +66,13 @@ namespace gmm {
         inline std::string toStr() {
             std::stringstream result;
             result << fmt::format("{} Planner", planner_name) << std::endl;
-            result << fmt::format("Duration: {:.2f}ms", plan_duration) << std::endl;
-            result << fmt::format("{} Vertices, {} Edges", num_vertices, num_edges) << std::endl;
-            result << fmt::format("Memory: {:.2f}KB", memory_usage) << std::endl;
+            result << fmt::format("Duration: {:.2f}ms", plan_duration.load()) << std::endl;
+            result << fmt::format("{} Vertices, {} Edges", num_vertices.load(), num_edges.load()) << std::endl;
+            result << fmt::format("Memory: {:.2f}KB", memory_usage.load()) << std::endl;
             if (solution_cost == -1){
                 result << "No feasible solution!" << std::endl;
             } else {
-                result << fmt::format("Solution cost: {:.2f}m", solution_cost) << std::endl;
+                result << fmt::format("Solution cost: {:.2f}m", solution_cost.load()) << std::endl;
             }
             return result.str();
         }
